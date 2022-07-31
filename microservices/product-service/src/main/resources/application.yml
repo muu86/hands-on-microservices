@@ -1,0 +1,11 @@
+server.port: 8001
+server.error.include-message: always
+
+logging:
+  level.root: INFO
+  com.mj: DEBUG
+
+---
+spring.config.activate.on-profile: docker
+
+server.port: 8080
