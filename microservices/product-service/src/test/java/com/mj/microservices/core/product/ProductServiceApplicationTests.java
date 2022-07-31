@@ -5,17 +5,21 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
+import com.mj.microservices.core.product.persistence.ProductRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment=RANDOM_PORT)
-
 public class ProductServiceApplicationTests {
 
 	@Autowired
 	private WebTestClient client;
+
+	@Autowired
+	private ProductRepository repository;
 
 	@Test
 	public void getProductById() {

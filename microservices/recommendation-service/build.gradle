@@ -11,15 +11,32 @@ sourceCompatibility = '17'
 repositories {
 	mavenCentral()
 }
+ext {
+	mapstructVersion = "1.5.2.Final"
+}
+
+repositories {
+	mavenCentral()
+}
 
 dependencies {
-	implementation project(":api")
-	implementation project(":util")
+	implementation project(':api')
+	implementation project(':util')
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'io.netty:netty-all'
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+
+	compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	compileOnly("org.projectlombok:lombok:1.18.24")
+
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
 
 tasks.named('test') {

@@ -8,6 +8,10 @@ group = 'com.mj.microservices.core.product'
 version = '1.0.0-SNAPSHOT'
 sourceCompatibility = '17'
 
+ext {
+	mapstructVersion = "1.5.2.Final"
+}
+
 repositories {
 	mavenCentral()
 }
@@ -17,9 +21,20 @@ dependencies {
 	implementation project(':util')
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'io.netty:netty-all'
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+
+	compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	compileOnly("org.projectlombok:lombok")
+
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	annotationProcessor 'org.projectlombok:lombok'
+	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.7'
 }
 
 tasks.named('test') {
