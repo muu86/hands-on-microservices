@@ -3,12 +3,14 @@ package com.mj.microservices.core.product.persistence;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.mj.api.core.product.Product;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.dao.DuplicateKeyException;
@@ -18,9 +20,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@DataMongoTest
-@TestPropertySource(properties = "spring.mongodb.embedded.version=3.4.7")
+@DataMongoTest(properties = { "spring.mongodb.embedded.version=3.4.7" })
+@ExtendWith(SpringExtension.class)
+//@TestPropertySource(properties = "spring.mongodb.embedded.version=3.4.7")
 class ProductRepositoryTest {
 
     @Autowired
@@ -78,14 +82,18 @@ class ProductRepositoryTest {
 
     @Test
     public void duplicateError() {
-        assertThatThrownBy(() -> {
-            ProductEntity entity = new ProductEntity(savedEntity.getProductId(), "n", 1);
-            repository.save(entity);
-        }).isInstanceOf(DuplicateKeyException.class);
-//        Assertions.assertThrows(DuplicateKeyException.class, () -> {
+//        assertThatThrownBy(() -> {
 //            ProductEntity entity = new ProductEntity(savedEntity.getProductId(), "n", 1);
 //            repository.save(entity);
-//        });
+//
+//        }).isInstanceOf(DuplicateKeyException.class);
+        System.out.println(savedEntity.getProductId());
+        ProductEntity duplicate = new ProductEntity(savedEntity.getProductId(), "n", 1);
+        System.out.println(duplicate);
+        org.junit.jupiter.api.Assertions.assertThrows(DuplicateKeyException.class, () -> {
+            ProductEntity entity = new ProductEntity(savedEntity.getProductId(), "n", 1);
+            repository.save(duplicate);
+        });
     }
 
     @Test

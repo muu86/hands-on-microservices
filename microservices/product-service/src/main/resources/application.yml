@@ -1,6 +1,9 @@
 server.port: 8001
 server.error.include-message: always
 
+spring.data.mongodb:
+  auto-index-creation: true
+
 logging:
   level.root: INFO
   com.mj: DEBUG
