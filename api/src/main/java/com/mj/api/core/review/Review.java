@@ -1,12 +1,16 @@
 package com.mj.api.core.review;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 public class Review {
-    private final int productId;
-    private final int reviewId;
-    private final String author;
-    private final String subject;
-    private final String content;
-    private final String serviceAddress;
+    private int productId;
+    private int reviewId;
+    private String author;
+    private String subject;
+    private String content;
+    private String serviceAddress;
 
     public Review() {
         productId = 0;
@@ -24,29 +28,5 @@ public class Review {
         this.subject = subject;
         this.content = content;
         this.serviceAddress = serviceAddress;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public int getReviewId() {
-        return reviewId;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getServiceAddress() {
-        return serviceAddress;
     }
 }

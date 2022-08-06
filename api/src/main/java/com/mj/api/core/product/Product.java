@@ -1,10 +1,15 @@
 package com.mj.api.core.product;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class Product {
-    private final int productId;
-    private final String name;
-    private final int weight;
-    private final String serviceAddress;
+    private int productId;
+    private String name;
+    private int weight;
+    private String serviceAddress;
 
     public Product() {
         productId = 0;
@@ -20,19 +25,4 @@ public class Product {
         this.serviceAddress = serviceAddress;
     }
 
-    public int getProductId() {
-        return productId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public String getServiceAddress() {
-        return serviceAddress;
-    }
 }

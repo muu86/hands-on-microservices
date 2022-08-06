@@ -24,13 +24,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'io.netty:netty-all'
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+//	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
 	compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	compileOnly("org.projectlombok:lombok")
 
-	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	annotationProcessor 'org.projectlombok:lombok'
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
