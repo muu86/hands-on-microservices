@@ -30,10 +30,12 @@ dependencies {
 	implementation 'io.netty:netty-all'
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 
-	compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	compileOnly("org.projectlombok:lombok:1.18.24")
+	compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
+	annotationProcessor("org.projectlombok:lombok:1.18.24")
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	testAnnotationProcessor("org.projectlombok:lombok:1.18.24")
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

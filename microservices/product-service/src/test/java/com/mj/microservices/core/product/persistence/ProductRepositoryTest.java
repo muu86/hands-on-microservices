@@ -22,8 +22,10 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@DataMongoTest(properties = { "spring.mongodb.embedded.version=3.4.7" })
-@ExtendWith(SpringExtension.class)
+@DataMongoTest(properties = {"spring.data.mongodb.port=0",
+    "spring.mongodb.embedded.version=3.6.9",
+    "spring.data.mongodb.auto-index-creation=true"})
+//@ExtendWith(SpringExtension.class)
 //@TestPropertySource(properties = "spring.mongodb.embedded.version=3.4.7")
 class ProductRepositoryTest {
 

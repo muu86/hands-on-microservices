@@ -34,9 +34,10 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
+	testCompileOnly 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
-	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.7'
+	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
 
 tasks.named('test') {
