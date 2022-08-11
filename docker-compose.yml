@@ -36,21 +36,21 @@ services:
 
   # $ mongo
   mongodb:
-    image: mongo:3.6.9
+    image: mongo:4.4
     mem_limit: 350m
     ports:
       - "27017:27017"
-    command: mongod --smallfiles
+#    command: mongod
 
   # $ mysql -uroot -h127.0.0.1 -p
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
     mem_limit: 350m
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=rootpwd
-      - MYSQL_DATABASE=review_db
+      - MYSQL_DATABASE=review-db
       - MYSQL_USER=user
       - MYSQL_PASSWORD=pwd
     healthcheck:
