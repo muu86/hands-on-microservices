@@ -19,7 +19,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Component
 public class ProductCompositeIntegration implements ProductService, RecommendationService,
@@ -27,15 +28,16 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
 
     private static final Logger log = LoggerFactory.getLogger(ProductCompositeIntegration.class);
 
-    private final RestTemplate restTemplate;
+//    private final RestTemplate restTemplate;
+    private final WebClient webClient;
     private final ObjectMapper mapper;
     private final String productServiceUrl;
     private final String recommendationServiceUrl;
     private final String reviewServiceUrl;
 
     public ProductCompositeIntegration(
-        RestTemplate restTemplate,
-        ObjectMapper mapper,
+//        RestTemplate restTemplate,
+        WebClient webClient, ObjectMapper mapper,
         @Value("${app.product-service.host}") String productServiceHost,
         @Value("${app.product-service.port}") String productServicePort,
         @Value("${app.recommendation-service.host}") String recommedationServiceHost,
@@ -43,7 +45,9 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         @Value("${app.review-service.host}") String reviewServiceHost,
         @Value("${app.review-service.port}") String reviewServicePort) {
 
-        this.restTemplate = restTemplate;
+        this.webClient = webClient;
+
+//        this.restTemplate = restTemplate;
         this.mapper = mapper;
         this.productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/product/";
         this.recommendationServiceUrl = "http://" + recommedationServiceHost + ":" + recommedationServicePort + "/recommendation?productId=";
@@ -51,7 +55,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     }
 
     @Override
-    public Product getProduct(int productId) {
+    public Mono<Product> getProduct(int productId) {
         try {
             String url = productServiceUrl + productId;
             log.debug("Will call getProduct API on URL: {}", url);

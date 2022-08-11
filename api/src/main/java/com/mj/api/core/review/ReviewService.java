@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface ReviewService {
 
@@ -19,7 +20,7 @@ public interface ReviewService {
     @GetMapping(
         value    = "/review",
         produces = "application/json")
-    List<Review> getReviews(@RequestParam(value = "productId", required = true) int productId);
+    Flux<Review> getReviews(@RequestParam(value = "productId", required = true) int productId);
 
     /**
      * Sample usage:

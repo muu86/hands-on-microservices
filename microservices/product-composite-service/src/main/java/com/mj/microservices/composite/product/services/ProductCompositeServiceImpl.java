@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 @Slf4j
@@ -62,13 +63,21 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     }
 
     @Override
-    public ProductAggregate getProduct(int productId) {
-        Product product = integration.getProduct(productId);
+    public Mono<ProductAggregate> getCompositeProduct(int productId) {
+        /*Product product = integration.getProduct(productId);
         List<Recommendation> recommendations = integration.getRecommendations(productId);
         List<Review> reviews = integration.getReviews(productId);
 
         return createProductAggregate(product, recommendations, reviews,
-            serviceUtil.getServiceAddress());
+            serviceUtil.getServiceAddress());*/
+
+        return Mono.zip(values ->
+            createProductAggregate(
+                (Product) values[0],
+                (List<Recommendation>) values[1],
+                (List<Review>) values[2]),
+            integration.getProduct(productId),
+            integration.getRecommendations(productId))
     }
 
     @Override

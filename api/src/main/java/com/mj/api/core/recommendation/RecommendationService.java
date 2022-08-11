@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface RecommendationService {
 
@@ -19,7 +20,7 @@ public interface RecommendationService {
     @GetMapping(
         value    = "/recommendation",
         produces = "application/json")
-    List<Recommendation> getRecommendations(@RequestParam(value = "productId", required = true) int productId);
+    Flux<Recommendation> getRecommendations(@RequestParam(value = "productId", required = true) int productId);
 
     /**
      * Sample usage:
