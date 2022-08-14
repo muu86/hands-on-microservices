@@ -1,14 +1,27 @@
 package com.mj.microservices.composite.product;
 
+import com.mj.microservices.composite.product.services.ProductCompositeIntegration;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.health.CompositeReactiveHealthContributor;
+import org.springframework.boot.actuate.health.DefaultHealthContributorRegistry;
+import org.springframework.boot.actuate.health.DefaultReactiveHealthContributorRegistry;
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.ReactiveHealthContributor;
+import org.springframework.boot.actuate.health.ReactiveHealthContributorRegistry;
+import org.springframework.boot.actuate.health.ReactiveHealthIndicator;
+import org.springframework.boot.actuate.health.StatusAggregator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
+import org.springframework.integration.annotation.Reactive;
 import org.springframework.web.client.RestTemplate;
+import reactor.core.publisher.Mono;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -57,5 +70,34 @@ public class ProductCompositeServiceApplication {
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
+	}
+
+	@Autowired
+	StatusAggregator statusAggregator;
+
+	@Autowired
+	ProductCompositeIntegration integration;
+
+	@Bean
+	ReactiveHealthContributor coreServices() {
+		return CompositeReactiveHealthContributor.fromMap(Map.of(
+			"product", new ReactiveHealthIndicator() {
+				@Override
+				public Mono<Health> health() {
+					return integration.getProductHealth();
+				}
+			},
+			"recommendation", new ReactiveHealthIndicator() {
+				@Override
+				public Mono<Health> health() {
+					return integration.getRecommendationHealth();
+				}
+			},
+			"review", new ReactiveHealthIndicator() {
+				@Override
+				public Mono<Health> health() {
+					return integration.getReviewHealth();
+				}
+			}));
 	}
 }

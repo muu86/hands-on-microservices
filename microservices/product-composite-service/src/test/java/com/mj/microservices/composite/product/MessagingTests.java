@@ -17,15 +17,12 @@ import com.mj.microservices.composite.product.services.ProductCompositeIntegrati
 import java.util.Collections;
 import java.util.concurrent.BlockingQueue;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
-import org.springframework.cloud.stream.test.matcher.MessageQueueMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;

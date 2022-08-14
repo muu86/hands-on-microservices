@@ -13,7 +13,7 @@ public class Event<K, T> {
     private T data;
     private Date eventCreatedAt;
 
-    public Event(Type eventType) {
+    public Event() {
         this.eventType = null;
         this.key = null;
         this.data = null;
