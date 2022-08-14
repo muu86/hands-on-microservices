@@ -1,5 +1,6 @@
 package com.mj.microservices.composite.product;
 
+import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.when;
 
 import com.mj.api.composite.product.ProductAggregate;
@@ -13,6 +14,7 @@ import com.mj.util.exceptions.InvalidInputException;
 import com.mj.util.exceptions.NotFoundException;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,9 +23,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+//@Disabled
 class ProductCompositeServiceApplicationTests {
 
 	private static final int PRODUCT_ID_OK = 1;
@@ -39,13 +43,13 @@ class ProductCompositeServiceApplicationTests {
 	@BeforeEach
 	public void setup() {
 		when(compositeIntegration.getProduct(PRODUCT_ID_OK))
-			.thenReturn(new Product(PRODUCT_ID_OK, "name", 1, "mock-address"));
+			.thenReturn(Mono.just(new Product(PRODUCT_ID_OK, "name", 1, "mock-address")));
 		when(compositeIntegration.getRecommendations(PRODUCT_ID_OK))
-			.thenReturn(Collections.singletonList(
-				new Recommendation(PRODUCT_ID_OK, 1, "author", 1, "content", "mock address")));
+			.thenReturn(Flux.fromIterable(singletonList(
+				new Recommendation(PRODUCT_ID_OK, 1, "author", 1, "content", "mock address"))));
 		when(compositeIntegration.getReviews(PRODUCT_ID_OK))
-			.thenReturn(Collections.singletonList(
-				new Review(PRODUCT_ID_OK, 1, "author", "subject", "content", "mock address")));
+			.thenReturn(Flux.fromIterable(singletonList(
+				new Review(PRODUCT_ID_OK, 1, "author", "subject", "content", "mock address"))));
 
 		when(compositeIntegration.getProduct(PRODUCT_ID_NOT_FOUND))
 			.thenThrow(new NotFoundException("NOT FOUND : " + PRODUCT_ID_NOT_FOUND));
@@ -62,8 +66,8 @@ class ProductCompositeServiceApplicationTests {
 	@Test
 	public void createCompositeProduct2() {
 		ProductAggregate compositeProduct = new ProductAggregate(1, "name", 1,
-			Collections.singletonList(new RecommendationSummary(1, "a", 1, "c")),
-			Collections.singletonList(new ReviewSummary(1, "a", "s", "c")),
+			singletonList(new RecommendationSummary(1, "a", 1, "c")),
+			singletonList(new ReviewSummary(1, "a", "s", "c")),
 			null);
 		postAndVerifyProduct(compositeProduct, HttpStatus.OK);
 	}
@@ -71,8 +75,8 @@ class ProductCompositeServiceApplicationTests {
 	@Test
 	public void deleteCompositeProduct() {
 		ProductAggregate compositeProduct = new ProductAggregate(1, "name", 1,
-			Collections.singletonList(new RecommendationSummary(1, "a", 1, "c")),
-			Collections.singletonList(new ReviewSummary(1, "a", "s", "c")),
+			singletonList(new RecommendationSummary(1, "a", 1, "c")),
+			singletonList(new ReviewSummary(1, "a", "s", "c")),
 			null);
 
 		postAndVerifyProduct(compositeProduct, HttpStatus.OK);

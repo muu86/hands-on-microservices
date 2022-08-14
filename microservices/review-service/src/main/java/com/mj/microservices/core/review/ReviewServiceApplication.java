@@ -2,6 +2,7 @@ package com.mj.microservices.core.review;
 
 import java.util.concurrent.Executors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -17,7 +18,7 @@ public class ReviewServiceApplication {
 
 	private final Integer connectionPoolSize;
 
-	public ReviewServiceApplication(Integer connectionPoolSize) {
+	public ReviewServiceApplication(@Value("${spring.datasource.maximum-pool-size:10}") Integer connectionPoolSize) {
 		this.connectionPoolSize = connectionPoolSize;
 	}
 

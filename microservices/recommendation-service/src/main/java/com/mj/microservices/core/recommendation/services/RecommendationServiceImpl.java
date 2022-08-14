@@ -89,7 +89,7 @@ public class RecommendationServiceImpl implements RecommendationService {
             .onErrorMap(
                 DuplicateKeyException.class,
                 ex -> new InvalidInputException(
-                    "Duplicate Key, ProductId: " + body.getProductId() + ", Recommendation Id: "
+                    "Duplicate key, Product Id: " + body.getProductId() + ", Recommendation Id: "
                         + body.getRecommendationId()))
             .map(e -> mapper.entityToApi(e));
 

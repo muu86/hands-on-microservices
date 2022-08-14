@@ -71,13 +71,17 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
         return createProductAggregate(product, recommendations, reviews,
             serviceUtil.getServiceAddress());*/
 
-        return Mono.zip(values ->
-            createProductAggregate(
-                (Product) values[0],
-                (List<Recommendation>) values[1],
-                (List<Review>) values[2]),
-            integration.getProduct(productId),
-            integration.getRecommendations(productId))
+        return Mono.zip(
+                values -> createProductAggregate(
+                    (Product) values[0],
+                    (List<Recommendation>) values[1],
+                    (List<Review>) values[2],
+                    serviceUtil.getServiceAddress()),
+                integration.getProduct(productId),
+                integration.getRecommendations(productId).collectList(),
+                integration.getReviews(productId).collectList())
+            .doOnError(ex -> log.warn("getCompositeProduct failed: {}", ex.toString()))
+            .log();
     }
 
     @Override
