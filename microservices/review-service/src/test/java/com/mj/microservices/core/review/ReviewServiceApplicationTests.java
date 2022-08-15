@@ -23,11 +23,13 @@ import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT,
+@SpringBootTest(
+	webEnvironment = RANDOM_PORT,
 	properties = {
-	"spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect",
-	"spring.datasource.driver-class-name=org.h2.Driver",
-	"spring.datasource.url=jdbc:h2:mem:review-db" })
+		"spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.H2Dialect",
+		"spring.datasource.driver-class-name=org.h2.Driver",
+		"spring.datasource.url=jdbc:h2:mem:review-db",
+		"eureka.client.enabled=false"})
 public class ReviewServiceApplicationTests {
 
 	@Autowired

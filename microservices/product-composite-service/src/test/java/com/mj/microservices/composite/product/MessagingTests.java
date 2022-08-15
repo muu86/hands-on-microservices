@@ -29,7 +29,9 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    webEnvironment = WebEnvironment.RANDOM_PORT,
+    properties = { "eureka.client.enabled=false" })
 //@AutoConfigureWebTestClient
 public class MessagingTests {
 

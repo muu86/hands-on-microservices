@@ -29,7 +29,8 @@ import org.springframework.test.web.reactive.server.WebTestClient.BodyContentSpe
 @SpringBootTest(webEnvironment = RANDOM_PORT,
 	properties = { "spring.data.mongodb.port=0",
 		"spring.mongodb.embedded.version=3.6.9",
-		"spring.data.mongodb.auto-index-creation=true"
+		"spring.data.mongodb.auto-index-creation=true",
+		"eureka.client.enabled=false"
 		})
 public class ProductServiceApplicationTests {
 

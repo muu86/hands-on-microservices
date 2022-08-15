@@ -2,25 +2,21 @@ package com.mj.microservices.composite.product;
 
 import com.mj.microservices.composite.product.services.ProductCompositeIntegration;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.health.CompositeReactiveHealthContributor;
-import org.springframework.boot.actuate.health.DefaultHealthContributorRegistry;
-import org.springframework.boot.actuate.health.DefaultReactiveHealthContributorRegistry;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.ReactiveHealthContributor;
-import org.springframework.boot.actuate.health.ReactiveHealthContributorRegistry;
 import org.springframework.boot.actuate.health.ReactiveHealthIndicator;
 import org.springframework.boot.actuate.health.StatusAggregator;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpMethod;
-import org.springframework.integration.annotation.Reactive;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -32,10 +28,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 @SpringBootApplication
 @ComponentScan("com.mj")
 public class ProductCompositeServiceApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(ProductCompositeServiceApplication.class, args);
-	}
 
 	@Value("${api.common.version}") String apiVersion;
 	@Value("${api.common.title}") String apiTitle;
@@ -67,10 +59,10 @@ public class ProductCompositeServiceApplication {
 			));
 	}
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
+//	@Bean
+//	public RestTemplate restTemplate() {
+//		return new RestTemplate();
+//	}
 
 	@Autowired
 	StatusAggregator statusAggregator;
@@ -99,5 +91,15 @@ public class ProductCompositeServiceApplication {
 					return integration.getReviewHealth();
 				}
 			}));
+	}
+
+//	@Bean
+//	@LoadBalanced
+//	public WebClient.Builder loadBalancedWebClientBuilder() {
+//		return WebClient.builder();
+//	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(ProductCompositeServiceApplication.class, args);
 	}
 }
